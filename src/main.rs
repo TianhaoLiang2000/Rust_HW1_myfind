@@ -2,6 +2,7 @@ use regex::Regex;
 use std::env;
 use std::process;
 mod find_file;
+use colored::*;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -19,19 +20,19 @@ fn main() {
         }
     };
     
-    match find_file::find(&args[1], &regex) {
+ match find_file::find(&args[1], &regex) {
         Ok(matches) => {
             if matches.is_empty() {
-                println!("未找到匹配项。");
+                println!("{}", "未找到匹配项。".red()); // 使用红色输出
             } else {
-                println!("找到以下匹配项：");
+                println!("{}", "找到以下匹配项：".green()); // 使用绿色输出
                 for file in matches {
-                    println!("{}", file);
+                    println!("{}", file.blue()); // 使用蓝色输出
                 }
             }
         }
         Err(error) => {
-            println!("发生错误：{}", error);
+            println!("{}", format!("发生错误：{}", error).red()); // 使用红色输出错误信息
             process::exit(1);
         }
     }
